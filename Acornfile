@@ -1,0 +1,29 @@
+name: "Pizarra Project Management System"
+description: "The desc for the project bla bla bla"
+
+args: {
+  djangodbname: "pizarradb"
+}
+
+services: db: {
+  image: "ghcr.io/acorn-io/mariadb:v10.11.5-1"
+  serviceArgs: {
+    dbName: args.djangodbname
+  }
+}
+
+containers: web: {
+  build: {
+    context: "./pizarra"
+    dockerfile: "./pizarra/Dockerfile"
+  }
+  ports: publish: "8000:8000/http"
+  if args.dev {dirs: "/app": "./pizarra"}
+  env: {
+    MARIADB_USER: "@{service.db.secrets.admin.username}"
+    MARIADB_ROOT_PASSWORD: "@{service.db.secrets.admin.password}"
+    MARIADB_HOST: "@{service.db.address}"
+    MARIADB_PORT: "@{service.db.port.3306}"
+    MARIADB_DATABASE: "@{service.db.data.dbName}"
+  }
+}

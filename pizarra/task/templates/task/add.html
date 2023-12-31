@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1 class="mb-6 text-3xl">Add task</h1>
+
+    <form class="mt-6 space-y-4" method="post" action=".">
+        {% csrf_token %}
+
+        <div>
+            <label>Name</label><br>
+            <input name="name" type="text" class="w-full py-4 px-6 bg-slate-500 text-white">
+        </div>
+
+        <div>
+            <label>Description</label><br>
+            <textarea name="description" class="w-full py-4 px-6 bg-slate-500 text-white"></textarea>
+        </div>
+
+        <div>
+            <button class="py-4 px-8 bg-sky-600 text-white">Submit</button>
+        </div>
+    </form>
+{% endblock %}
